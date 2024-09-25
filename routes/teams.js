@@ -13,6 +13,7 @@ const {
   deleteProgramById,
   updateProgramById,
 } = require("../Controller/programCrud");
+const Review = require("../Model/review");
 
 // Define storage for the images
 const categoryStorage = multer.diskStorage({
@@ -126,6 +127,7 @@ router.get("/getAllteams", async (req, res) => {
 
 router.get("/getTeamById/:id", async (req, res) => {
   const id = req.params.id;
+  console.log("id ", req.params);
 
   try {
     const response = await teamController.getTeamById(id);
@@ -135,6 +137,32 @@ router.get("/getTeamById/:id", async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to fetch teams", error: error.message });
+  }
+});
+
+router.post("/submitReview", async (req, res) => {
+  try {
+    const { teamId, review } = req.body;
+
+    if (!teamId || !review) {
+      return res
+        .status(400)
+        .json({ message: "Team ID and review are required." });
+    }
+
+    // Create a new review entry
+    const newReview = new Review({
+      teamId,
+      review,
+    });
+
+    // Save review to the database
+    await newReview.save();
+
+    res.status(200).json({ message: "Review submitted successfully!" });
+  } catch (error) {
+    console.error("Error submitting review:", error);
+    res.status(500).json({ message: "Failed to submit review" });
   }
 });
 

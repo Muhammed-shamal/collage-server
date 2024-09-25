@@ -21,7 +21,6 @@ module.exports = {
   },
 
   getAllPrograms: async (req, res) => {
-   
     try {
       const programs = await Program.find();
 

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const teamSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -10,10 +10,10 @@ const teamSchema = new mongoose.Schema({
   // For the checkbox data
   isSingle: { type: Boolean, default: false },
   isGroup: { type: Boolean, default: false },
-
-  createdAt: { type: Date, default: Date.now }
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+  createdAt: { type: Date, default: Date.now },
 });
 
-const Team = mongoose.model('Team', teamSchema);
+const Team = mongoose.model("Team", teamSchema);
 
 module.exports = Team;
