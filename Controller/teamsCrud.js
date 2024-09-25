@@ -3,36 +3,62 @@ const fs = require("fs");
 const Teams = require("../Model/teams");
 
 // Function to add a new team
-const addTeam = async (teamData, teamImg, io) => {
+// const addTeam = async (teamData, teamImg, io) => {
+//   try {
+//     // Create a new instance of the Teams model with the provided data
+//     const newteam = new Teams({
+//       name: teamData.name,
+//       ranking: teamData.ranking,
+//       score: teamData.score,
+//       program: teamData.program,
+//       isSingle: teamData.isSingle,
+//       isGroup: teamData.isGroup,
+//       type: teamData.type,
+//       image: teamImg ? teamImg.filename : null,
+//     });
+
+//     // Save the new team to the database
+//     const savedteam = await newteam.save();
+//     io.emit("team_add");
+
+//     return savedteam;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+const addTeam = async (name, image) => {
   try {
-    // Create a new instance of the Teams model with the provided data
-    const newteam = new Teams({
-      name: teamData.name,
-      ranking: teamData.ranking,
-      score: teamData.score,
-      program: teamData.program,
-      isSingle: teamData.isSingle,
-      isGroup: teamData.isGroup,
-      type: teamData.type,
-      image: teamImg ? teamImg.filename : null,
+    // Create a new team
+    const newTeam = new Teams({
+      name,
+      image,
+      programs: [], // Empty program array initially
     });
 
-    // Save the new team to the database
-    const savedteam = await newteam.save();
-    io.emit("team_add");
-
-    return savedteam;
+    await newTeam.save();
+    return newTeam;
   } catch (error) {
     throw error;
   }
 };
 
+// const getAllTeams = async () => {
+//   try {
+//     // Fetch all Teams from the database
+//     const allTeams = await Teams.find();
+
+//     return allTeams;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 const getAllTeams = async () => {
   try {
-    // Fetch all Teams from the database
-    const allTeams = await Teams.find();
+    const teams = await Teams.find().sort({ totalScore: -1 }); // Sort teams by totalScore in descending order
 
-    return allTeams;
+    return teams;
   } catch (error) {
     throw error;
   }
@@ -40,11 +66,16 @@ const getAllTeams = async () => {
 
 const getTeamById = async (id) => {
   try {
-    // Find team by ID in the database
-    const team = await Teams.findById(id);
+    // Find team by ID in the database and populate programs field with details from the Program model
+    const team = await Teams.findById(id).populate({
+      path: "programs.programId", // Populate programId inside the programs array
+      select: "label value", // Select specific fields from the Program model
+    });
+
     if (!team) {
-      throw new Error("team not found");
+      throw new Error("Team not found");
     }
+
     return team;
   } catch (error) {
     throw error;

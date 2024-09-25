@@ -12,6 +12,7 @@ const {
   addProgram,
   deleteProgramById,
   updateProgramById,
+  addTeamToProgram,
 } = require("../Controller/programCrud");
 const Review = require("../Model/review");
 
@@ -48,14 +49,14 @@ const categoryUpload = multer({
 router.post("/addteam", upload.single("image"), async (req, res) => {
   let io = req.io;
 
+  const { name } = req.body;
+
   try {
     // Call the teamController to add the team
-    const response = await teamController.addTeam(req.body, req.file, io);
+    const response = await teamController.addTeam(name, req.file.filename, io);
 
     // Send a success response back to the client
-    res
-      .status(200)
-      .json({ message: "team added successfully", team: response });
+    res.status(200).json(response);
   } catch (error) {
     // Handle any errors that occur during team addition
     console.error("Error adding team:", error);
@@ -172,6 +173,7 @@ router.get("/getAllPrograms", getAllPrograms);
 router.delete("/deleteProgramById/:id", deleteProgramById);
 router.put("/updateProgram/:id", updateProgramById);
 router.post("/createProgram", addProgram);
+router.post("/addTeamToProgram", addTeamToProgram);
 
 router.get("/getTeamsByProgram/:id", async (req, res) => {
   const category = req.params.id;
