@@ -7,27 +7,27 @@ module.exports = {
     try {
       if (email === "admin@gmail.com" && password === "password1") {
         // Check if the user is already logged in
-        const existingSession = await AdminSession.findOne({ emailID: email });
+        //const existingSession = await AdminSession.findOne({ emailID: email });
 
-        if (existingSession) {
-          console.log("existingSession", existingSession);
+        // if (existingSession) {
+        //   console.log("existingSession", existingSession);
           
-          // If the session exists, check if it's expired
-          const currentTime = new Date();
-          const sessionExpiration = new Date(existingSession.updatedAt);
-          sessionExpiration.setHours(sessionExpiration.getHours() + 24); // Assuming session expires after 24 hours
+        //   // If the session exists, check if it's expired
+        //   const currentTime = new Date();
+        //   const sessionExpiration = new Date(existingSession.updatedAt);
+        //   sessionExpiration.setHours(sessionExpiration.getHours() + 24); // Assuming session expires after 24 hours
 
-          if (currentTime > sessionExpiration) {
-            // If the session is expired, delete the session record
-            await AdminSession.findOneAndDelete({ emailID: email });
-          } else {
-            // If the session is not expired, return an error
-            console.log("Admin is already logged in");
-            return res.status(401).json({
-              message: `Admin with email ${email} is already logged in`,
-            });
-          }
-        }
+        //   if (currentTime > sessionExpiration) {
+        //     // If the session is expired, delete the session record
+        //     await AdminSession.findOneAndDelete({ emailID: email });
+        //   } else {
+        //     // If the session is not expired, return an error
+        //     console.log("Admin is already logged in");
+        //     return res.status(401).json({
+        //       message: `Admin with email ${email} is already logged in`,
+        //     });
+        //   }
+        // }
 
         // Generate access token
         const token = jwt.sign({ email }, process.env.JWT_SECRET, {
@@ -35,10 +35,10 @@ module.exports = {
         });
 
         // Store session identifier in the database
-        await AdminSession.create({
-          emailID: email,
-          accessToken: token,
-        });
+        // await AdminSession.create({
+        //   emailID: email,
+        //   accessToken: token,
+        // });
 
         console.log("Login success");
         return res.status(200).json({ token: token });

@@ -21,7 +21,7 @@ module.exports = {
   },
 
   getAllPrograms: async (req, res) => {
-    console.log("calling");
+   
     try {
       const programs = await Program.find();
 
