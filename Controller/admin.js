@@ -11,7 +11,7 @@ module.exports = {
 
         // if (existingSession) {
         //   console.log("existingSession", existingSession);
-          
+
         //   // If the session exists, check if it's expired
         //   const currentTime = new Date();
         //   const sessionExpiration = new Date(existingSession.updatedAt);
@@ -56,13 +56,18 @@ module.exports = {
     const { token } = req.body;
 
     try {
-      const session = await AdminSession.findOneAndDelete({
-        accessToken: token,
-      });
+      // const session = await AdminSession.findOneAndDelete({
+      //   accessToken: token,
+      // });
 
-      if (!session) {
+      // if (!session) {
+      //   // If no session found, return an error response
+      //   return { success: false, message: "Session not found" };
+      // }
+
+      if (!token) {
         // If no session found, return an error response
-        return { success: false, message: "Session not found" };
+        return { success: false, message: "Token not found" };
       }
 
       // Respond with success message
