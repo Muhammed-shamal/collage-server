@@ -31,9 +31,9 @@ module.exports = {
 
         // Generate access token
         const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-          expiresIn: "24hr",
+          expiresIn: "7d", // Token valid for 7 days
         });
-
+        
         // Store session identifier in the database
         // await AdminSession.create({
         //   emailID: email,

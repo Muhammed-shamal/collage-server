@@ -14,6 +14,8 @@ const programSchema = new mongoose.Schema({
       },
       rank: { type: Number, default: 0 },
       score: { type: Number, default: 0 },
+      isSingle: { type: Boolean, default: false },
+      isGroup: { type: Boolean, default: false },
     },
   ],
 });
