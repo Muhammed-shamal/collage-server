@@ -13,6 +13,9 @@ const {
   deleteProgramById,
   updateProgramById,
   addTeamToProgram,
+  editTeamInProgram,
+  deleteTeamFromProgram,
+  getTeamProgramDetail,
 } = require("../Controller/programCrud");
 const Review = require("../Model/review");
 
@@ -171,7 +174,11 @@ router.get("/getAllPrograms", getAllPrograms);
 router.delete("/deleteProgramById/:id", deleteProgramById);
 router.put("/updateProgram/:id", updateProgramById);
 router.post("/createProgram", addProgram);
+
 router.post("/addTeamToProgram", addTeamToProgram);
+router.get("/getTeamProgramDetails", getTeamProgramDetail);
+router.put("/editTeamInProgram", editTeamInProgram);
+router.delete("/deleteTeamFromProgram", deleteTeamFromProgram);
 
 router.get("/getTeamsByProgram/:id", async (req, res) => {
   const category = req.params.id;
