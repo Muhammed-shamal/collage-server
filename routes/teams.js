@@ -80,8 +80,6 @@ router.put("/updateteamBy/:id", upload.single("image"), async (req, res) => {
       io
     );
 
-    console.log("team updated successfully:", response);
-
     // Send a success response back to the client
     res
       .status(200)

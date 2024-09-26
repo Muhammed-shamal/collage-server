@@ -105,9 +105,7 @@ const updateTeamById = async (id, newData, newImage, io) => {
     }
 
     currentData.name = newData.name;
-    currentData.ranking = newData.ranking;
-    currentData.location = newData.location;
-    currentData.link = newData.link;
+   
 
     if (newImage) {
       // Delete the old image file from the folder

@@ -44,9 +44,9 @@ module.exports = {
   },
 
   addTeamToProgram: async (req, res) => {
-    console.log('working i thnks')
+    
     try {
-      const { teamId, programId, score } = req.body;
+      const { teamId, programId, score,rank } = req.body;
 
       // Find team and program by their IDs
       const team = await Teams.findById(teamId);
@@ -68,8 +68,8 @@ module.exports = {
       }
 
       // Add the team to the program with a score
-      team.programs.push({ programId, score });
-      program.teams.push({ teamId, score });
+      team.programs.push({ programId, score,rank });
+      program.teams.push({ teamId, score,rank });
 
       // Update the total score of the team
       team.totalScore += score;
